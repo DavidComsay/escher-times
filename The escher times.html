@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The escher times</title>
+</head>
+<body>
+	<h1>THE ESCHER TIMES</h1>
+	<h2>The infinite news paper</h2>
+	<button onclick="toggleInterval()">Pause/Resume</button>
+    <button onclick="downloadText()">Download</button>
+	<p id="sentence"></p>
+
+	<script>
+		// Define an array of possible words
+		var words = [
+            "be","and","of","a","in","to","have","too",
+            "it","I","that","for","you","he","with","on","do",
+            "say","this","they","at","but","we","his","from",
+            "that","not","can't","won't","by","she","or","as",
+            "what","go","their","can","who","find","filleth",
+            "know","book","get","if","would","her","all","my",
+            "make","about","know","will","as","up","one","time",
+            "there","year","so","think","when","which","them",
+            "some","me","people","take","out","into","just",
+            "see","him","your","come","could","now","than"
+            ,"like","other","how","then","it's","our","two",
+            "more","these","want","way","look","first","also",
+            "new","because","day","more","use","no","man",
+            "find","here","thing","give","many","we'll","only",
+            "those","down","tell","one","very","even",".",",","<br>"
+		];
+
+		// Initialize an empty sentence
+		var sentence = "";
+        var intervalID = setInterval(addWord, 50);
+
+		// Define a function to add a random word to the sentence
+		function addWord() {
+			// Choose a random word from the words array
+			var index = Math.floor(Math.random() * words.length);
+			var word = words[index];
+
+			// Add the word to the sentence
+			if (sentence.length == 0) {
+				// If the sentence is empty, capitalize the first letter of the first word
+				sentence = word.charAt(0).toUpperCase() + word.slice(1);
+			} else {
+				sentence += " " + word;
+			}
+
+			// Update the sentence on the page
+			document.getElementById("sentence").innerHTML = sentence;
+		}
+
+        // Define a function to toggle the interval
+        function toggleInterval() {
+            if (intervalID) {
+                clearInterval(intervalID);
+                intervalID = null;
+            } else {
+                intervalID = setInterval(addWord, 50);
+            }
+        }
+
+        // Define a function to download the text
+        function downloadText() {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(sentence));
+            element.setAttribute('download', 'newspaper.txt');
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+	</script>
+</body>
+</html>
